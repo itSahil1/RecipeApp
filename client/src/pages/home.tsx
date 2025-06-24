@@ -8,7 +8,8 @@ import LoadingSkeleton from "@/components/loading-skeleton";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { AlertCircle, Plus } from "lucide-react";
-import type { Recipe } from "@shared/schema";
+import { recipeAPI } from "@/lib/api";
+import type { Recipe } from "@/types/recipe";
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -17,25 +18,14 @@ export default function Home() {
   const [allRecipes, setAllRecipes] = useState<Recipe[]>([]);
 
   const { data, isLoading, error, refetch } = useQuery({
-    queryKey: ["/api/recipes/search", searchQuery, selectedCategory, offset],
+    queryKey: ["recipes/search", searchQuery, selectedCategory, offset],
     queryFn: async () => {
-      const params = new URLSearchParams({
-        number: "12",
-        offset: offset.toString(),
+      return recipeAPI.searchRecipes({
+        query: searchQuery.trim() || undefined,
+        type: selectedCategory || undefined,
+        number: 12,
+        offset: offset,
       });
-
-      if (searchQuery.trim()) {
-        params.append("query", searchQuery.trim());
-      }
-      if (selectedCategory) {
-        params.append("type", selectedCategory);
-      }
-
-      const response = await fetch(`/api/recipes/search?${params}`);
-      if (!response.ok) {
-        throw new Error(`Failed to fetch recipes: ${response.statusText}`);
-      }
-      return response.json();
     },
     staleTime: 5 * 60 * 1000, // 5 minutes
   });

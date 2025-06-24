@@ -8,7 +8,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Clock, Users, Star, Heart, X } from "lucide-react";
-import type { Recipe } from "@shared/schema";
+import type { Recipe } from "@/types/recipe";
 
 interface RecipeModalProps {
   recipe: Recipe | null;

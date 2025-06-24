@@ -16,13 +16,18 @@ import {
   ChefHat,
   DollarSign
 } from "lucide-react";
-import type { Recipe } from "@shared/schema";
+import { recipeAPI } from "@/lib/api";
+import type { Recipe } from "@/types/recipe";
 
 export default function RecipeDetail() {
   const { id } = useParams<{ id: string }>();
   
   const { data: recipe, isLoading, error } = useQuery<Recipe>({
-    queryKey: ["/api/recipes", id],
+    queryKey: ["recipes", id],
+    queryFn: async () => {
+      if (!id) throw new Error("Recipe ID is required");
+      return recipeAPI.getRecipeDetails(parseInt(id));
+    },
     enabled: !!id,
   });
 
