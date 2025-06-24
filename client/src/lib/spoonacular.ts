@@ -40,7 +40,7 @@ export interface SpoonacularInstructionsResponse {
   steps: SpoonacularInstruction[];
 }
 
-const API_KEY = import.meta.env.VITE_SPOONACULAR_API_KEY;
+const API_KEY ='bd29879d8ea4415b8655a1d1197b910d'
 
 export class SpoonacularAPI {
   private baseUrl = 'https://api.spoonacular.com/recipes';

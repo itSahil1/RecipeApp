@@ -10,7 +10,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Search recipes endpoint
   app.get("/api/recipes/search", async (req, res) => {
     try {
-      const params = searchRecipesSchema.parse(req.query);
+      // Convert string parameters to numbers for validation
+      const queryParams = {
+        query: req.query.query as string,
+        cuisine: req.query.cuisine as string,
+        diet: req.query.diet as string,
+        type: req.query.type as string,
+        number: req.query.number ? parseInt(req.query.number as string) : 12,
+        offset: req.query.offset ? parseInt(req.query.offset as string) : 0,
+      };
+      const params = searchRecipesSchema.parse(queryParams);
       
       // First check local storage
       const localRecipes = await storage.searchRecipes(params.query);

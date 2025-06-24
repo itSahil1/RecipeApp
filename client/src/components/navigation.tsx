@@ -20,13 +20,13 @@ export default function Navigation() {
           {/* Navigation Menu */}
           <div className="flex items-center space-x-6">
             <Link href="/">
-              <a className={`font-medium transition-colors duration-200 ${
+              <span className={`font-medium transition-colors duration-200 cursor-pointer ${
                 location === "/" 
                   ? "text-primary" 
                   : "text-gray-700 hover:text-primary"
               }`}>
                 Home
-              </a>
+              </span>
             </Link>
             <a 
               href="#" 
